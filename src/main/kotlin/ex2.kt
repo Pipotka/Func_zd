@@ -10,8 +10,8 @@ fun main(args: Array<String>)
     var strCodes : ArrayList<String> = ArrayList()
     for(twoChars in chunks)
     {
-        var firstCode = determine(twoChars[0])
-        var secondCode = determine(twoChars[1])
+        var firstCode = determineChar(twoChars[0])
+        var secondCode = determineChar(twoChars[1])
         var result = secondCode + (firstCode - 1) * 31
         strCodes.add(codeToString(result))
     }
@@ -28,14 +28,73 @@ fun main(args: Array<String>)
     for(strCode in strCodes)
     {
         var code = stringToCode(strCode)
-        if ((code in 31..961 step 31) && (strCode == strCodes[strCodes.lastIndex]))
+        val columnCount = 31
+        var firstChar = 'a'
+        var secondChar = 'a'
+        for(currentRow in 0..30)
         {
+            var nextRow = currentRow + 1
+            if((currentRow * columnCount < code) && (nextRow * columnCount >= code))
+            {
+                for(column in 1..columnCount)
+                {
+                    if((currentRow * columnCount + column) == code)
+                    {
+                        firstChar = determineCode(currentRow + 1)
+                        secondChar = determineCode(column)
 
+                        print("$firstChar$secondChar ")
+                        break
+                    }
+                }
+                break
+            }
         }
     }
 }
 
-fun determine(Response : Char): Int
+fun determineCode(Response : Int): Char
+{
+    var code = Response
+    var result : Char = 'a'
+    when(code)
+    {
+        1 -> result = 'а'
+        2 -> result ='б'
+        3 -> result ='в'
+        4 -> result ='г'
+        5 -> result ='д'
+        6 -> result ='е'
+        7 -> result ='ж'
+        8 -> result ='з'
+        9 -> result ='и'
+        10 -> result ='к'
+        11 -> result ='л'
+        12 -> result ='м'
+        13 -> result ='н'
+        14 -> result ='о'
+        15 -> result ='п'
+        16 -> result ='р'
+        17 -> result ='с'
+        18 -> result ='т'
+        19 -> result ='у'
+        20 -> result ='ф'
+        21 -> result ='х'
+        22 -> result ='ц'
+        23 -> result ='ч'
+        24 -> result ='ш'
+        25 -> result ='щ'
+        26 -> result ='ъ'
+        27 -> result ='ы'
+        28 -> result ='ь'
+        29 -> result ='э'
+        30 -> result ='ю'
+        31 -> result ='я'
+    }
+    return result
+}
+
+fun determineChar(Response : Char): Int
 {
     var ch = Response
     if (ch == 'ё')
